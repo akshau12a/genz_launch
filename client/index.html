@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GENZLUXE Notify Page</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @keyframes scrollLeft {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    @keyframes scrollRight {
+      0% { transform: translateX(-50%); }
+      100% { transform: translateX(0); }
+    }
+
+    .animate-scroll-left {
+      animation: scrollLeft 30s linear infinite;
+    }
+
+    .animate-scroll-right {
+      animation: scrollRight 30s linear infinite;
+    }
+  </style>
+</head>
+<body class="bg-black text-white font-bold relative overflow-hidden min-h-screen">
+
+  <!-- ✅ Background Branding Rows -->
+  <div class="absolute top-0 w-[200%] whitespace-nowrap opacity-10 text-[12vw] animate-scroll-left">
+    GENZLUXE GENZLUXE GENZLUXE GENZLUXE GENZLUXE GENZLUXE GENZLUXE GENZLUXE
+  </div>
+  <div class="absolute top-1/3 w-[200%] whitespace-nowrap opacity-10 text-[12vw] animate-scroll-right">
+    GENZLUXE GENZLUXE GENZLUXE GENZLUXE GENZLUXE GENZLUXE GENZLUXE GENZLUXE
+  </div>
+  <div class="absolute top-2/3 w-[200%] whitespace-nowrap opacity-10 text-[12vw] animate-scroll-left">
+    GENZLUXE GENZLUXE GENZLUXE GENZLUXE GENZLUXE GENZLUXE GENZLUXE GENZLUXE
+  </div>
+
+  <!-- ✅ Notify Form -->
+  <div class="relative z-10 flex items-center justify-center min-h-screen px-4">
+    <div class="bg-black bg-opacity-80 p-8 rounded-xl max-w-md w-full shadow-xl text-center">
+      <h2 class="text-yellow-400 text-sm mb-2 tracking-wide">DROP 01 — COMING SOON</h2>
+      <h1 class="text-xl mb-2">Notify Me to Grab the First Drop</h1>
+      <p class="text-gray-400 text-sm mb-6">Limited stock only. Be the first to know before it’s gone.</p>
+
+      <form id="notifyForm" class="space-y-4">
+        <input type="text" name="firstName" placeholder="First Name" required
+          class="w-full p-3 bg-zinc-800 rounded-md placeholder-gray-500" />
+        <input type="text" name="lastName" placeholder="Last Name" required
+          class="w-full p-3 bg-zinc-800 rounded-md placeholder-gray-500" />
+
+        <div>
+          <input type="email" name="email" placeholder="Email" required
+            class="w-full p-3 bg-zinc-800 rounded-md placeholder-gray-500" />
+          <p id="emailError" class="text-red-400 text-xs mt-1 hidden">Invalid email</p>
+        </div>
+
+        <div>
+          <input type="text" name="contactNo" placeholder="Contact No" required
+            class="w-full p-3 bg-zinc-800 rounded-md placeholder-gray-500" />
+          <p id="phoneError" class="text-red-400 text-xs mt-1 hidden">Invalid Indian mobile number</p>
+        </div>
+
+        <button type="submit"
+          class="w-full bg-yellow-400 text-black py-3 rounded-md font-bold hover:bg-yellow-300 transition">
+          Notify Me
+        </button>
+      </form>
+
+      <p id="successMsg" class="text-green-400 mt-4 text-sm hidden">🎉 You’ll be notified!</p>
+    </div>
+  </div>
+
+  <!-- ✅ Simple JS Validation -->
+  <script>
+    const form = document.getElementById('notifyForm');
+    const emailError = document.getElementById('emailError');
+    const phoneError = document.getElementById('phoneError');
+    const successMsg = document.getElementById('successMsg');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      emailError.classList.add('hidden');
+      phoneError.classList.add('hidden');
+      successMsg.classList.add('hidden');
+
+      const email = form.email.value.trim();
+      const phone = form.contactNo.value.trim();
+
+      let valid = true;
+
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        emailError.classList.remove('hidden');
+        valid = false;
+      }
+
+      if (!/^[6-9]\d{9}$/.test(phone)) {
+        phoneError.classList.remove('hidden');
+        valid = false;
+      }
+
+      if (valid) {
+        successMsg.classList.remove('hidden');
+        form.reset();
+      }
+    });
+  </script>
+</body>
+</html>
