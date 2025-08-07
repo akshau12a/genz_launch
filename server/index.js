@@ -18,16 +18,15 @@ mongoose.connect(process.env.MONGO_URI, {
   .catch(err => console.error("❌ MongoDB connection error:", err));
 
 app.post('/api/notify', async (req, res) => {
-    const { firstName, lastName, email } = req.body;
+    const { firstName, lastName, email, contactNo } = req.body; // ✅ Add contactNo
     try {
-        const newUser = new User({ firstName, lastName, email });
+        const newUser = new User({ firstName, lastName, email, contactNo }); // ✅ Save contactNo
         await newUser.save();
         res.status(201).json({ message: 'Successfully saved!' });
     } catch (err) {
         res.status(500).json({ error: 'Failed to save user' });
     }
 });
-
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, '0.0.0.0', () => {

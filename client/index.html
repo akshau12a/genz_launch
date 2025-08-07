@@ -75,37 +75,59 @@
 
   <!-- ✅ Simple JS Validation -->
   <script>
-    const form = document.getElementById('notifyForm');
-    const emailError = document.getElementById('emailError');
-    const phoneError = document.getElementById('phoneError');
-    const successMsg = document.getElementById('successMsg');
+  const form = document.getElementById('notifyForm');
+  const emailError = document.getElementById('emailError');
+  const phoneError = document.getElementById('phoneError');
+  const successMsg = document.getElementById('successMsg');
 
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      emailError.classList.add('hidden');
-      phoneError.classList.add('hidden');
-      successMsg.classList.add('hidden');
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    emailError.classList.add('hidden');
+    phoneError.classList.add('hidden');
+    successMsg.classList.add('hidden');
 
-      const email = form.email.value.trim();
-      const phone = form.contactNo.value.trim();
+    const email = form.email.value.trim();
+    const phone = form.contactNo.value.trim();
 
-      let valid = true;
+    let valid = true;
 
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        emailError.classList.remove('hidden');
-        valid = false;
-      }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      emailError.classList.remove('hidden');
+      valid = false;
+    }
 
-      if (!/^[6-9]\d{9}$/.test(phone)) {
-        phoneError.classList.remove('hidden');
-        valid = false;
-      }
+    if (!/^[6-9]\d{9}$/.test(phone)) {
+      phoneError.classList.remove('hidden');
+      valid = false;
+    }
 
-      if (valid) {
+    if (valid) {
+      fetch('https://genz-launch-2.onrender.com/api/notify', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          firstName: form.firstName.value,
+          lastName: form.lastName.value,
+          email: email,
+          contactNo: phone
+        })
+      })
+      .then(response => {
+        if (!response.ok) throw new Error('Failed to save');
+        return response.json();
+      })
+      .then(data => {
         successMsg.classList.remove('hidden');
         form.reset();
-      }
-    });
-  </script>
+      })
+      .catch(err => {
+        alert('❌ Something went wrong. Please try again.');
+        console.error(err);
+      });
+    }
+  });
+</script>
 </body>
 </html>
